@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha lista de tarefas</title>
+</head>
+<body>
+    <h1>Minha lista de tarefas</h1>
+
+    <form action="/adicionar" method="post">
+        <input
+            type="text"
+            name="titulo"
+            placeholder="Digite uma tarefa"
+            required
+        >
+        <button type="submit">Adicionar</button>
+    </form>
+
+   <ul>
+    {<ul>
+    {% for tarefa in tarefas %}
+        <li>
+            {% if tarefa["concluida"] %}
+                <s>{{ tarefa["titulo"] }}</s> — Concluída
+            {% else %}
+                {{ tarefa["titulo"] }}
+
+                <form
+                    action="{{ url_for('concluir', indice=loop.index0) }}"
+                    method="post"
+                >
+                    <button type="submit">Concluir</button>
+                </form>
+            {% endif %}
+
+            <form
+                action="{{ url_for('excluir', indice=loop.index0) }}"
+                method="post"
+            >
+                <button type="submit">Excluir</button>
+            </form>
+        </li>
+    {% else %}
+        <li>Nenhuma tarefa cadastrada.</li>
+    {% endfor %}
+</ul>
+</ul>
+</body>
+</html>
