@@ -51,3 +51,34 @@ li {
     border-radius: 8px;
     overflow-wrap: anywhere;
 }
+.acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.acoes form {
+    margin: 0;
+}
+
+.botao-concluir {
+    background-color: #15803d;
+}
+
+.botao-concluir:hover {
+    background-color: #166534;
+}
+
+.botao-excluir {
+    background-color: #b91c1c;
+}
+
+.botao-excluir:hover {
+    background-color: #991b1b;
+}
+
+.concluida {
+    text-decoration: line-through;
+    color: #6b7280;
+}

@@ -26,7 +26,30 @@ tarefas = carregar_tarefas()
 
 @app.route("/")
 def inicio():
-    return render_template("index.html", tarefas=tarefas)
+    filtro = request.args.get("filtro", "todas")
+    concluidas = 0
+    tarefas_visiveis = []
+
+    for indice, tarefa in enumerate(tarefas):
+        if tarefa["concluida"]:
+            concluidas += 1
+
+        if filtro == "pendentes" and tarefa["concluida"]:
+            continue
+
+        if filtro == "concluidas" and not tarefa["concluida"]:
+            continue
+
+        tarefas_visiveis.append((indice, tarefa))
+
+    pendentes = len(tarefas) - concluidas
+
+    return render_template(
+        "index.html",
+        tarefas=tarefas_visiveis,
+        pendentes=pendentes,
+        concluidas=concluidas,
+    )
 
 
 @app.route("/adicionar", methods=["POST"])
@@ -46,7 +69,7 @@ def adicionar():
 @app.route("/concluir/<int:indice>", methods=["POST"])
 def concluir(indice):
     if 0 <= indice < len(tarefas):
-        tarefas[indice]["concluida"] = True
+        tarefas[indice]["concluida"] = not tarefas[indice]["concluida"]
         salvar_tarefas()
 
     return redirect(url_for("inicio"))
@@ -60,6 +83,15 @@ def excluir(indice):
 
     return redirect(url_for("inicio"))
 
+@app.route("/editar/<int:indice>", methods=["POST"])
+def editar(indice):
+    titulo = request.form.get("titulo", "").strip()
+
+    if 0 <= indice < len(tarefas) and titulo:
+        tarefas[indice]["titulo"] = titulo
+        salvar_tarefas()
+
+    return redirect(url_for("inicio"))
 
 if __name__ == "__main__":
     app.run(debug=True)

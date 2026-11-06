@@ -1,55 +1,70 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minha lista de tarefas</title>
-    <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='style.css') }}"
->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
     <h1>Minha lista de tarefas</h1>
 
+    <p>{{ pendentes }} pendente(s) · {{ concluidas }} concluída(s)</p>
+
+    <nav aria-label="Filtros de tarefas">
+        <a href="{{ url_for('inicio') }}">Todas</a>
+        <a href="{{ url_for('inicio', filtro='pendentes') }}">Pendentes</a>
+        <a href="{{ url_for('inicio', filtro='concluidas') }}">Concluídas</a>
+    </nav>
     <form action="/adicionar" method="post">
-        <input
-            type="text"
-            name="titulo"
-            placeholder="Digite uma tarefa"
-            required
-        >
+        <input type="text" name="titulo" placeholder="Digite uma tarefa" required>
         <button type="submit">Adicionar</button>
     </form>
 
-   <ul>
-    {<ul>
-    {% for tarefa in tarefas %}
+    <ul>
+        {% for indice, tarefa in tarefas %}
         <li>
-            {% if tarefa["concluida"] %}
-                <s>{{ tarefa["titulo"] }}</s> — Concluída
-            {% else %}
+            <span class="{{ 'concluida' if tarefa['concluida'] else '' }}">
                 {{ tarefa["titulo"] }}
+            </span>
+<details>
+    <summary>Editar</summary>
 
-                <form
-                    action="{{ url_for('concluir', indice=loop.index0) }}"
-                    method="post"
-                >
-                    <button type="submit">Concluir</button>
+    <form action="{{ url_for('editar', indice=indice) }}" method="post">
+        <input
+            type="text"
+            name="titulo"
+            aria-label="Novo título da tarefa"
+            value="{{ tarefa['titulo'] }}"
+            required
+        >
+        <button type="submit">Salvar</button>
+    </form>
+</details>
+            <div class="acoes">
+                <form action="{{ url_for('concluir', indice=indice) }}" method="post">
+                    <button type="submit" class="botao-concluir">
+                        {% if tarefa["concluida"] %}
+                        Reabrir
+                        {% else %}
+                        Concluir
+                        {% endif %}
+                    </button>
                 </form>
-            {% endif %}
 
-            <form
-                action="{{ url_for('excluir', indice=loop.index0) }}"
-                method="post"
-            >
-                <button type="submit">Excluir</button>
-            </form>
+                <form action="{{ url_for('excluir', indice=indice) }}" method="post">
+                    <button type="submit" class="botao-excluir">
+                        Excluir
+                    </button>
+                </form>
+            </div>
         </li>
-    {% else %}
+        {% else %}
         <li>Nenhuma tarefa cadastrada.</li>
-    {% endfor %}
-</ul>
-</ul>
+        {% endfor %}
+    </ul>
 </body>
+
 </html>
