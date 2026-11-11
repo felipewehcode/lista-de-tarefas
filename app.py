@@ -57,10 +57,7 @@ def adicionar():
     titulo = request.form.get("titulo", "").strip()
 
     if titulo:
-        tarefas.append({
-            "titulo": titulo,
-            "concluida": False,
-        })
+        tarefas.insert(0, {"titulo": titulo, "concluida": False})
         salvar_tarefas()
 
     return redirect(url_for("inicio"))

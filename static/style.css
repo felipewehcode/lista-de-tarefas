@@ -1,149 +1,167 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f3f4f6;
-    color: #1f2937;
-    max-width: 640px;
-    margin: 40px auto;
+    max-width: 680px;
+    margin: 56px auto;
     padding: 0 20px;
+    font: 1rem/1.5 "Inter", system-ui, sans-serif;
+    color: #d9dadb;
+    background: #f7f8fb;
 }
 
 h1 {
-    text-align: center;
+    margin: 0;
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+    letter-spacing: -0.04em;
 }
 
-form {
+h1 + p {
+    margin: 4px 0 24px;
+    color: #e6e7e9;
+}
+
+nav,
+form,
+.acoes {
     display: flex;
     gap: 8px;
-    margin: 12px 0;
+}
+
+nav,
+.acoes {
+    flex-wrap: wrap;
+}
+
+nav {
+    margin-bottom: 16px;
+}
+
+nav a,
+summary {
+    color: #e7e7ee;
+}
+
+nav a {
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+nav a:hover,
+button:hover {
+    background: #e5e8f1;
+}
+
+input,
+button {
+    padding: 10px 14px;
+    border: 1px solid #d3d8e3;
+    border-radius: 8px;
+    font: inherit;
 }
 
 input {
     flex: 1;
     min-width: 0;
-    padding: 12px;
-    border: 1px solid #9ca3af;
-    border-radius: 6px;
-    font-size: 16px;
+    background: white;
 }
 
 button {
-    padding: 10px 16px;
-    background-color: #1d4ed8;
-    color: white;
-    border: none;
-    border-radius: 6px;
+    background: #f1f3f8;
+    color: inherit;
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #1e40af;
+body > form button {
+    border-color: #4f46e5;
+    background: #4f46e5;
+    color: rgb(232, 226, 226);
+}
+
+body > form button:hover {
+    background: #4338ca;
 }
 
 ul {
-    list-style: none;
     padding: 0;
+    list-style: none;
 }
 
 li {
-    background-color: white;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     padding: 16px;
-    border-radius: 8px;
+    border: 1px solid #e1e5ee;
+    border-radius: 12px;
+    background: white;
     overflow-wrap: anywhere;
 }
 
+details,
 .acoes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
     margin-top: 12px;
 }
 
-.acoes form {
-    margin: 0;
+details form {
+    margin-top: 8px;
 }
 
-.botao-concluir {
-    background-color: #15803d;
-}
-
-.botao-concluir:hover {
-    background-color: #166534;
-}
-
-.botao-excluir {
-    background-color: #b91c1c;
-}
-
-.botao-excluir:hover {
-    background-color: #991b1b;
-}
-
-.concluida {
-    text-decoration: line-through;
-    color: #6b7280;
-}
-body {
-    font-family: system-ui, sans-serif;
-    background-color: #eef2ff;
-    color: #1e293b;
-    max-width: 680px;
-    margin: 48px auto;
-    padding: 0 16px;
-}
-
-h1 {
-    color: #312e81;
-    margin-bottom: 8px;
-}
-
-h1 + p {
-    text-align: center;
-    color: #475569;
-}
-
-nav {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 20px 0;
-}
-
-nav a {
-    padding: 8px 14px;
-    border-radius: 999px;
-    background-color: #e0e7ff;
-    color: #3730a3;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-nav a:hover {
-    background-color: #c7d2fe;
-}
-
-li {
-    padding: 18px;
-    border: 1px solid #dbe2f0;
-    border-radius: 14px;
-    box-shadow: 0 3px 10px rgb(30 41 59 / 8%);
-}
-
-li details {
-    margin-top: 10px;
-}
-
-li summary {
-    color: #3730a3;
+summary {
     cursor: pointer;
 }
 
-.botao-excluir {
-    background-color: #fee2e2;
-    color: #991b1b;
+.concluida {
+    color: #05090e;
+    text-decoration: line-through;
 }
 
-.botao-excluir:hover {
-    background-color: #fecaca;
+.botao-excluir {
+    color: #a12626;
+}
+
+:focus-visible {
+    outline: 2px solid #4f46e5;
+    outline-offset: 3px;
+}
+
+@media (max-width: 420px) {
+    body {
+        margin: 28px auto;
+    }
+
+    body > form,
+    details form {
+        flex-direction: column;
+    }
+}
+body::before {
+    content: "";
+    position: fixed;
+    inset: -24px;
+    z-index: -1;
+    pointer-events: none;
+    background: url("fundo.jpg") center / cover no-repeat;
+    transition: transform 600ms ease;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    html:hover body::before {
+        transform: translate(16px, 10px);
+    }
+}
+/* Títulos das tarefas pendentes */
+li > span {
+    color: #1e293b;
+}
+
+/* Títulos das tarefas concluídas */
+li > span.concluida {
+    color: #64748b;
+}
+
+/* Ações dentro dos cartões */
+li summary,
+li .botao-concluir {
+    color: #334155;
 }
